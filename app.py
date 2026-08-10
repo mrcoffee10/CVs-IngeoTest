@@ -7,25 +7,63 @@ from docxtpl import DocxTemplate
 from pypdf import PdfReader
 from json_repair import repair_json
 
-# Configuración de página con colores e imagen corporativa
+# Configuración de página
 st.set_page_config(page_title="Generador de CVs — INGEOTEST S.A.C.", page_icon="⚡", layout="wide")
 
-# Estilos CSS Corporativos
+# Estilos CSS Corporativos con Fondo Oscuro y Paleta INGEOTEST
 st.markdown("""
     <style>
-    .main { background-color: #f8f9fa; }
-    .stButton>button { background-color: #1B365D; color: white; font-weight: bold; width: 100%; border-radius: 8px; height: 3em; }
-    .stButton>button:hover { background-color: #0B1F3A; color: white; }
-    .header-box { background: linear-gradient(135deg, #1B365D 0%, #0B1F3A 100%); color: white; padding: 20px; border-radius: 10px; text-align: center; margin-bottom: 25px; }
+    /* Fondo principal modo oscuro */
+    .stApp {
+        background-color: #0E1117 !important;
+        color: #FFFFFF !important;
+    }
+    
+    /* Botón Principal (Azul Cyan -> Verde al pasar el cursor) */
+    .stButton>button {
+        background-color: #0080C8 !important;
+        color: white !important;
+        font-weight: bold !important;
+        width: 100% !important;
+        border-radius: 8px !important;
+        height: 3em !important;
+        border: none !important;
+        transition: background-color 0.3s ease !important;
+    }
+    .stButton>button:hover {
+        background-color: #2E8B57 !important; /* Verde corporativo */
+        color: white !important;
+    }
+
+    /* Estilo del contenedor para subir archivos PDF */
+    div[data-testid="stFileUploader"] {
+        border: 1px dashed #0080C8 !important;
+        border-radius: 10px !important;
+        background-color: #1E222A !important;
+    }
+
+    /* Ajuste de color para textos secundarios */
+    .stCaption {
+        color: #0080C8 !important;
+    }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-    <div class="header-box">
-        <h2 style="color: white; margin:0;">⚡ GENERADOR CORPORATIVO DE CVs</h2>
-        <p style="color: #B0C4DE; margin:5px 0 0 0;">INGEOTEST INGENIEROS S.A.C. — Estándar Maestro de Presentación Técnica</p>
-    </div>
-""", unsafe_allow_html=True)
+# Cabecera en 2 columnas: Título a la izquierda y Logo a la derecha
+col_head1, col_head2 = st.columns([3, 1])
+
+with col_head1:
+    st.title("⚡ GENERADOR CORPORATIVO DE CVs")
+    st.caption("INGEOTEST INGENIEROS S.A.C. — Estándar Maestro de Presentación Técnica")
+
+with col_head2:
+    # Se muestra el logo guardado en GitHub
+    if os.path.exists("logo_ingeotest.png"):
+        st.image("logo_ingeotest.png", use_container_width=True)
+    else:
+        st.markdown("### **INGEOTEST S.A.C.**")
+
+st.divider()
 
 # Obtener API Key desde Secrets de Streamlit
 GEMINI_API_KEY = st.secrets.get("GEMINI_API_KEY", os.environ.get("GEMINI_API_KEY"))
@@ -118,7 +156,7 @@ def procesar_cv_con_ia(texto_cv_original, cargo_objetivo):
     }}
     """
 
-    modelos = ['gemini-3.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']
+    modelos = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']
     for mod in modelos:
         try:
             response = client.models.generate_content(

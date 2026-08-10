@@ -1,0 +1,6 @@
+[theme]
+primaryColor = "#0080C8"            # Azul Cyan corporativo para botones
+backgroundColor = "#0E1117"         # Fondo negro / modo oscuro
+secondaryBackgroundColor = "#1E222A"# Fondo de las cajas de carga
+textColor = "#FFFFFF"               # Texto en blanco
+font = "sans serif"

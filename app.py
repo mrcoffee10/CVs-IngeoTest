@@ -43,9 +43,6 @@ def extraer_texto_pdf(pdf_file):
     return texto
 
 def procesar_cv_con_ia(texto_cv_original, cargo_objetivo):
-    if not client:
-        raise Exception("No se ha configurado la API Key de Gemini en los Secrets de Streamlit.")
-
     prompt = f"""
     Eres el Auditor Principal de Selección Técnica y Control de Calidad Documental de INGEOTEST INGENIEROS S.A.C.
     Tu objetivo es reestructurar la información del CV del candidato al ESTÁNDAR CORPORATIVO INGEOTEST, reorientando su perfil profesional al cargo objetivo de: "{cargo_objetivo}".
@@ -121,9 +118,7 @@ def procesar_cv_con_ia(texto_cv_original, cargo_objetivo):
     }}
     """
 
-    modelos = ['gemini-2.5-flash', 'gemini-1.5-flash']
-    ultimo_error = None
-
+    modelos = ['gemini-3.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']
     for mod in modelos:
         try:
             response = client.models.generate_content(
@@ -148,9 +143,10 @@ def procesar_cv_con_ia(texto_cv_original, cargo_objetivo):
                 
             return datos
         except Exception as e:
-            ultimo_error = str(e)
-
-    raise Exception(f"Detalle de la API: {ultimo_error}")
+            if "503" in str(e) or "UNAVAILABLE" in str(e):
+                continue
+            else:
+                raise e
 
 # Interfaz en la columna principal
 col1, col2 = st.columns([1, 1])

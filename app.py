@@ -53,7 +53,7 @@ st.markdown("""
 col_head1, col_head2 = st.columns([3, 1])
 
 with col_head1:
-    st.title("⚡ GENERADOR CORPORATIVO DE CVs")
+    st.title("🌎 GENERADOR CORPORATIVO DE CVs")
     st.caption("INGEOTEST INGENIEROS S.A.C. — Estándar Maestro de Presentación Técnica")
 
 with col_head2:

@@ -1,0 +1,6 @@
+google-genai
+docxtpl
+pypdf
+python-docx
+json-repair
+streamlit

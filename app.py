@@ -57,7 +57,6 @@ with col_head1:
     st.caption("INGEOTEST INGENIEROS S.A.C. — Estándar Maestro de Presentación Técnica")
 
 with col_head2:
-    # Se muestra el logo guardado en GitHub
     if os.path.exists("logo_ingeotest.png"):
         st.image("logo_ingeotest.png", use_container_width=True)
     else:
@@ -156,7 +155,7 @@ def procesar_cv_con_ia(texto_cv_original, cargo_objetivo):
     }}
     """
 
-    modelos = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']
+    modelos = ['gemini-3.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']
     for mod in modelos:
         try:
             response = client.models.generate_content(

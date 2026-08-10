@@ -118,7 +118,7 @@ def procesar_cv_con_ia(texto_cv_original, cargo_objetivo):
     }}
     """
 
-    modelos = ['gemini-3.5-flash', 'gemini-1.5-flash', 'gemini-1.5-pro']
+    modelos = ['gemini-2.5-flash', 'gemini-1.5-flash', 'gemini-2.0-flash']
     for mod in modelos:
         try:
             response = client.models.generate_content(
@@ -143,10 +143,12 @@ def procesar_cv_con_ia(texto_cv_original, cargo_objetivo):
                 
             return datos
         except Exception as e:
-            if "503" in str(e) or "UNAVAILABLE" in str(e):
+            if "503" in str(e) or "UNAVAILABLE" in str(e) or "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
                 continue
             else:
-                raise e
+                continue
+
+    raise Exception("Los modelos de IA están ocupados temporalmente. Por favor, intenta de nuevo en 30 segundos.")
 
 # Interfaz en la columna principal
 col1, col2 = st.columns([1, 1])

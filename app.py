@@ -8,7 +8,7 @@ from pypdf import PdfReader
 from json_repair import repair_json
 
 # Configuración de página
-st.set_page_config(page_title="Generador de CVs — INGEOTEST S.A.C.", page_icon="⚡", layout="wide")
+st.set_page_config(page_title="Generador de CVs — INGEOTEST S.A.C.", page_icon="🌎", layout="wide")
 
 # Estilos CSS Corporativos con Fondo Oscuro y Paleta INGEOTEST
 st.markdown("""
